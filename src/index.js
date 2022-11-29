@@ -3,10 +3,10 @@ const app = express();
 const PORT = 5000;
 const tests = require("./tests.json");
 const userRouter = require("./routes/userRoutes");
-// const noteRouter = require("./routes/noteRoutes");
+const noteRouter = require("./routes/noteRoutes");
 
 app.use("/users", userRouter);
-// app.use("/note", noteRouter);
+app.use("/note", noteRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello");
