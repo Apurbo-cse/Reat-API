@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
 const PORT = 5000;
-const tests = require("./tests.json");
 const userRouter = require("./routes/userRoutes");
 const noteRouter = require("./routes/noteRoutes");
+
+const mongoose = require("mongoose");
 
 app.use("/users", userRouter);
 app.use("/note", noteRouter);
@@ -12,18 +13,16 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.get("/test", (req, res) => {
-  res.status(200).json(tests);
-});
+mongoose
+  .connect(
+    "mongodb+srv://admin:<password>@cluster0.apqbxop.mongodb.net/?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Running server on port ${PORT}`);
+    });
+  })
 
-app.get("/random", (req, res) => {
-  let index = Math.floor(Math.random() * tests.length);
-  let test = tests[index];
-  res.status(200).json(test);
-});
-
-app.listen(PORT, () => {
-  console.log(`Running server on port ${PORT}`);
-});
-
-// npm install express jsonwebtoken nodemon bcrypt dotenv mongoose cors
+  .catch((err) => {
+    console.log(err);
+  });
