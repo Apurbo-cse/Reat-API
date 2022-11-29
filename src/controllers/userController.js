@@ -1,9 +1,9 @@
 const userModel = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = "NOTEAPI";
 
 const signup = async (req, res) => {
-  //Token Generate
-
   const { username, email, password } = req.body;
 
   try {
@@ -22,8 +22,20 @@ const signup = async (req, res) => {
       password: hasPassword,
       username: username,
     });
-    
-  } catch (err) {}
+
+    //Token Generate
+    const token = jwt.sign(
+      {
+        email: result.email,
+        id: result.id,
+      },
+      SECRET_KEY
+    );
+    res.status(201).json({ user: result, token: token });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Something is wrong" });
+  }
 };
 
 const signin = (req, res) => {};

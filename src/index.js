@@ -6,6 +6,7 @@ const noteRouter = require("./routes/noteRoutes");
 
 const mongoose = require("mongoose");
 
+app.use(express.json());
 app.use("/users", userRouter);
 app.use("/note", noteRouter);
 
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
 
 mongoose
   .connect(
-    "mongodb+srv://admin:<password>@cluster0.apqbxop.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://admin:admin@cluster0.apqbxop.mongodb.net/?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(PORT, () => {
